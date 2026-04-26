@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untuk Kamu</title>
+  <style>
+    /* Reset dan font dasar */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #ffd3e2 0%, #e9d8ff 45%, #c5d7ff 100%);
+      color: #2b1b3d;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .card {
+      width: min(100%, 720px);
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 32px;
+      box-shadow: 0 20px 60px rgba(51, 24, 88, 0.18);
+      padding: 40px 32px;
+      backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+
+    p.lead {
+      font-size: 1.1rem;
+      margin-bottom: 28px;
+      color: #5d4f6a;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      border: none;
+      border-radius: 999px;
+      padding: 16px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 16px 28px rgba(111, 67, 142, 0.16);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff7eb9, #9f7cff);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.8);
+      color: #6f3d96;
+      border: 1px solid rgba(111, 67, 142, 0.18);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+    }
+
+    .section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .typing-text {
+      min-height: 4.5rem;
+      color: #3c2350;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      margin-bottom: 30px;
+    }
+
+    .final-card {
+      margin-top: 24px;
+      border-radius: 28px;
+      padding: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,238,247,0.92));
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .final-image {
+      width: 100%;
+      max-width: 320px;
+      height: 220px;
+      margin: 0 auto 22px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #ffd5e6, #f7c4ff);
+      display: grid;
+      place-items: center;
+      color: #7c4b9d;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .question {
+      margin-bottom: 24px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #31194f;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    #noBtn {
+      background: #ffe3f5;
+      color: #ab2470;
+    }
+
+    #yesBtn {
+      background: #ff7eb9;
+      color: white;
+    }
+
+    .message-box {
+      margin-top: 20px;
+      color: #5d4f6a;
+      font-size: 1rem;
+      min-height: 3rem;
+    }
+
+    .hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #ff8ed6;
+      transform: rotate(-45deg);
+      animation: floatUp 5s ease-in infinite;
+      opacity: 0.85;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #ff8ed6;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(-45deg) scale(0.8);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-340px) translateX(40px) rotate(-45deg) scale(1.1);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 28px 20px;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+      }
+
+      .typing-text {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hearts" id="heartContainer"></div>
+
+    <div class="card" id="landingSection">
+      <h1>Hai kamu ❤️</h1>
+      <p class="lead">Aku sudah siap menyapa kamu dengan sesuatu yang manis.</p>
+      <button class="btn-primary" id="startBtn">Klik di sini ya</button>
+    </div>
+
+    <div class="card section" id="messageSection">
+      <div class="typing-text" id="typingText"></div>
+      <div class="final-card">
+        <div class="final-image">Foto cantik kamu nanti</div>
+        <div class="question">Will you stay with me forever?</div>
+        <div class="button-row">
+          <button class="btn-secondary" id="noBtn">No 😢</button>
+          <button class="btn-primary" id="yesBtn">Yes ❤️</button>
+        </div>
+        <div class="message-box" id="finalMessage"></div>
+      </div>
+    </div>
+
+    <audio id="backgroundMusic" loop preload="auto">
+      <source src="https://cdn.jsdelivr.net/gh/abcvocals/royalty-free-music/romantic-piano.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    // Referensi elemen penting
+    const startBtn = document.getElementById('startBtn');
+    const landingSection = document.getElementById('landingSection');
+    const messageSection = document.getElementById('messageSection');
+    const typingText = document.getElementById('typingText');
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const finalMessage = document.getElementById('finalMessage');
+    const heartContainer = document.getElementById('heartContainer');
+    const audio = document.getElementById('backgroundMusic');
+
+    // Set volume rendah untuk musik latar
+    audio.volume = 0.1;
+
+    // Buat animasi hati jatuh secara terus-menerus
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      const size = Math.random() * 16 + 14;
+      const leftPos = Math.random() * 90;
+      const delay = Math.random() * 2;
+      const duration = Math.random() * 3 + 4;
+
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
+      heart.style.left = `${leftPos}%`;
+      heart.style.animationDuration = `${duration}s`;
+      heart.style.animationDelay = `${delay}s`;
+      heartContainer.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, (duration + delay) * 1000);
+    }
+
+    setInterval(createHeart, 700);
+
+    // Tampilkan teks satu per satu dengan efek mengetik
+    const sentences = [
+      'Aku cuma mau bilang, makasih ya udah hadir di hidup aku.',
+      'Kamu itu spesial banget buat aku.',
+      'Aku sayang kamu ❤️'
+    ];
+
+    function typeSentence(sentence, element, delay = 40) {
+      return new Promise(resolve => {
+        element.textContent = '';
+        let index = 0;
+        const interval = setInterval(() => {
+          element.textContent += sentence[index];
+          index += 1;
+          if (index === sentence.length) {
+            clearInterval(interval);
+            setTimeout(resolve, 900);
+          }
+        }, delay);
+      });
+    }
+
+    async function showMessages() {
+      for (const sentence of sentences) {
+        await typeSentence(sentence, typingText);
+      }
+    }
+
+    // Pindahkan posisi tombol "No" jika diklik
+    function moveNoButton() {
+      const parentRect = noBtn.parentElement.getBoundingClientRect();
+      const maxX = parentRect.width - noBtn.offsetWidth;
+      const maxY = parentRect.height - noBtn.offsetHeight;
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+      noBtn.style.position = 'relative';
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+    }
+
+    // Jalankan musik ketika user sudah berinteraksi
+    function playMusic() {
+      audio.play().catch(() => {
+        // Jika browser memblokir autoplay, tidak masalah.
+      });
+    }
+
+    startBtn.addEventListener('click', () => {
+      playMusic();
+      landingSection.classList.add('section');
+      landingSection.style.opacity = '0';
+      landingSection.style.transform = 'translateY(-20px)';
+      setTimeout(() => {
+        landingSection.style.display = 'none';
+        messageSection.classList.add('visible');
+        showMessages();
+      }, 500);
+    });
+
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('click', moveNoButton);
+
+    yesBtn.addEventListener('click', () => {
+      finalMessage.textContent = 'I love you more than anything ❤️';
+      yesBtn.textContent = 'Love you too';
+      yesBtn.style.background = '#ff5ca9';
+      noBtn.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
+        .btn-pengaturan {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-pengaturan:hover {
+            background-color: #ee5253;
+        }
+
+        .btn-saya {
+            background-color: #333;
+            color: white;
+        }
+        
+        .btn-saya:hover {
+            background-color: #555;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="kalkulator">
+        <!-- Layar Input -->
+        <input type="text" id="layar-input" readonly value="0">
+
+        <!-- Tombol Grid -->
+        <div class="tombol-grid">
+            <button class="btn-saya" onclick="tulisLayar('7')">7</button>
+            <button class="btn-saya" onclick="tulisLayar('8')">8</button>
+            <button class="btn-saya" onclick="tulisLayar('9')">9</button>
+            <button class="btn-hitung" onclick="tulisLayar('/')">÷</button>
+
+            <button class="btn-saya" onclick="tulisLayar('4')">4</button>
+            <button class="btn-saya" onclick="tulisLayar('5')">5</button>
+            <button class="btn-saya" onclick="tulisLayar('6')">6</button>
+            <button class="btn-hitung" onclick="tulisLayar('*')">×</button>
+
+            <button class="btn-saya" onclick="tulisLayar('1')">1</button>
+            <button class="btn-saya" onclick="tulisLayar('2')">2</button>
+            <button class="btn-saya" onclick="tulisLayar('3')">3</button>
+            <button class="btn-hitung" onclick="tulisLayar('-')">-</button>
+
+            <button class="btn-saya" onclick="tulisLayar('0')">0</button>
+            <button class="btn-saya" onclick="tulisLayar('.')">.</button>
+            <button class="btn-saya" onclick="hapusSemua()">C</button>
+            <button class="btn-hitung" onclick="tulisLayar('+')">+</button>
+
+            <button class="btn-pengaturan" onclick="hitungHasil()">=</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript: Logika Kalkulator
+        let layar = document.getElementById('layar-input');
+
+        function tulisLayar(angka) {
+            // Jika layar sedang menampilkan angka 0 (awal), ubah ke angka baru
+            if (layar.value == 0) {
+                layar.value = angka;
+            } else {
+                layar.value = layar.value + angka;
+            }
+        }
+
+        function hapusSemua() {
+            layar.value = 0;
+        }
+
+        function hitungHasil() {
+            try {
+                // Menggunakan eval() untuk menghitung matematika sederhana
+                // Catatan: eval() aman untuk kalkulator sederhana karena input hanya dari tombol.
+                // Hindari penggunaan eval() pada aplikasi yang menerima input dari pengguna (user) umum untuk keamanan.
+                layar.value = eval(layar.value);
+            } catch (error) {
+                layar.value = "Error";
+                // Kosongkan layar setelah 1.5 detik
+                setTimeout(() => {
+                    if(layar.value === "Error") {
+                        layar.value = 0;
+                    }
+                }, 1500);
+            }
+        }
+
+        // Menambahkan support tombol keyboard
+        document.addEventListener('keydown', function(event) {
+            var keyCode = event.keyCode;
+            var keyName = '';
+
+            if(keyCode >= 48 && keyCode <= 57) {
+                keyName = String.fromCharCode(keyCode);
+            }
+            if(keyCode === 47) keyName = '/'; // Divide
+            if(keyCode === 107) keyName = '/'; // Enter key sometimes is 107
+            if(keyCode === 42) keyName = '*'; // Multiply
+            if(keyCode === 106) keyName = '*';
+            if(keyCode === 45 || keyCode === 109) keyName = '-'; // Subtract
+            if(keyCode === 61) keyName = '='; // Equals
+            if(keyCode === 32 || keyCode === 9) { // Space or Tab
+                hapusSemua();
+                return false; // Stop scrolling
+            }
+
+            if(keyName) {
+                tulisLayar(keyName);
+            }
+        });
+    </script>
+</body>
+</html>
